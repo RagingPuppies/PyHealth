@@ -6,5 +6,5 @@ you surly understand that there is nothing that tells the load balancer that a n
 PyHealth will monitor your nodes and will return to the load balancer check if the node is healthy or not!
 ### it also checks for Ingress 443 port.
 
-just run kubectl apply -f https://raw.githubusercontent.com/RagingPuppies/PyHealth/main/DaemonSet.yml
+just run `kubectl apply -f https://raw.githubusercontent.com/RagingPuppies/PyHealth/main/DaemonSet.yml`
 
