@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: node-health-check
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      app: daemonSet-kube-system-node-health-check
+  template:
+    metadata:
+      labels:
+        app: daemonSet-kube-system-node-health-check
+    spec:
+      containers:
+      - env:
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: spec.nodeName
+        image: ragingpuppies/pynodehealth:1.0
+        imagePullPolicy: Always
+        name: node-health-check
+        livenessProbe:
+          failureThreshold: 3
+          initialDelaySeconds: 10
+          periodSeconds: 2
+          successThreshold: 1
+          tcpSocket:
+            port: 10555
+          timeoutSeconds: 2
+        readinessProbe:
+          failureThreshold: 3
+          initialDelaySeconds: 3
+          periodSeconds: 2
+          successThreshold: 2
+          tcpSocket:
+            port: 10555
+          timeoutSeconds: 2
+        securityContext:
+          allowPrivilegeEscalation: false
+          privileged: false
+          readOnlyRootFilesystem: false
+          runAsNonRoot: false
+      hostNetwork: true
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+  updateStrategy:
+    rollingUpdate:
+      maxUnavailable: 1
+    type: RollingUpdate
