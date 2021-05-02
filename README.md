@@ -8,3 +8,5 @@ PyHealth will monitor your nodes and will return to the load balancer check if t
 
 just run `kubectl apply -f https://raw.githubusercontent.com/RagingPuppies/PyHealth/main/DaemonSet.yml`
 
+Once installed each of the worker nodes IPs will listen to port 10555 and will return one of the statuses: healthy, IngressDown, Draining.
+
